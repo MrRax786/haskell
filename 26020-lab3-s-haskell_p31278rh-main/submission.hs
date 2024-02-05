@@ -1,16 +1,15 @@
 
 -- Quadtree Definition
-data Quadtree = Cell Bool 
-    | Node Quadtree Quadtree Quadtree Quadtree
+data Quadtree =  BlackCell | WhiteCell | Node Quadtree Quadtree Quadtree Quadtree
     deriving (Eq, Show)
 
 -- Function for Black Cell creation
 allBlack :: Int -> Quadtree
-allBlack _ = Cell True
+allBlack _ = BlackCell
 
 -- Function for White Cell creation
 allWhite :: Int -> Quadtree
-allWhite _ = Cell False
+allWhite _ = WhiteCell
 
 -- Clockwise Function
 clockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
