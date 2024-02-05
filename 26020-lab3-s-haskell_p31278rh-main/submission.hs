@@ -14,12 +14,12 @@ allWhite _ = Cell False
 
 -- Clockwise Function
 clockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
-clockwise a b c d = Node a b c d
+clockwise a b c d = Node a d c b
 
 
 -- Anticlockwise Function
 anticlockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
-anticlockwise a b c d = Node d c b a
+anticlockwise a b c d = Node d b c a
 
 
 
