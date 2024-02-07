@@ -1,59 +1,33 @@
+----------------------- Ex1 --------------------------
 
 -- Quadtree Definition
-data Quadtree =  BlackCell | WhiteCell | Node Quadtree Quadtree Quadtree Quadtree
+data Quadtree =   BlackCell | WhiteCell | Node Quadtree Quadtree Quadtree Quadtree 
     deriving (Eq, Show)
 
 -- Function for Black Cell creation
 allBlack :: Int -> Quadtree
 allBlack _ = BlackCell
+-- allBlack n = Node subtree subtree subtree subtree
+--     where subtree = allBlack (n-1)
 
 -- Function for White Cell creation
 allWhite :: Int -> Quadtree
 allWhite _ = WhiteCell
-
+-- allWhite n = Node subtree subtree subtree subtree
+--     where subtree = allWhite (n-1)
 -- Clockwise Function
-clockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
-clockwise a b c d = Node a d c b
+--clockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
+-- clockwise (Node a1 b1 c1 d1) (Node a2 b2 c2 d2) (Node a3 b3 c3 d3) (Node a4 b4 c4 d4) = Node (clockwise a1 a2 a3 a4) (clockwise b1 b2 b3 b4) (clockwise c1 c2 c3 c4) (clockwise d1 d2 d3 d4)
+clockwise a b c d = Node a b c d 
 
 
 -- Anticlockwise Function
-anticlockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
-anticlockwise a b c d = Node d b c a
+--anticlockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
+-- anticlockwise (Node a1 b1 c1 d1) (Node a2 b2 c2 d2) (Node a3 b3 c3 d3) (Node a4 b4 c4 d4) = Node (anticlockwise a4 b4 c4 d4) (anticlockwise a3 b3 c3 d3) (anticlockwise a2 b2 c2 d2) (anticlockwise a1 b1 c1 d1)
+anticlockwise a b c d = Node a d c b
 
+-- ----------------------- Ex2 --------------------------
 
-
-
-
-
-
-
--- data Quadtree = Cell Bool 
---     | Node Quadtree Quadtree Quadtree Quadtree
-
--- instance Eq Quadtree where 
---     (Cell c1) == (Cell c2) = c1 == c2
---     (Node q1 q2 q3 q4) == (Node q1' q2' q3' q4') = q1 == q1' && q2 == q2' && q3 == q3' && q4 == q4'
---     _ ==_= False
-
--- instance Show Quadtree where
---     show(Cell True) = " "
---     show (Cell False) = " "
---     show(Node q1 q2 q3 q4) = "/n" ++ show q1 ++ show q2 ++ show q3 ++ show q4
-
--- -- Function for Black Cell creation
--- allBlack :: Int -> Quadtree
--- allBlack _ = Cell True
-
--- -- Function for White Cell creation
--- allWhite :: Int -> Quadtree
--- allWhite _ = Cell False
-
--- -- Clockwise Function
--- clockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
--- clockwise q1 q2 q3 q4 = Node q1 q2 q3 q4
-
-
--- -- Anticlockwise Function
--- anticlockwise :: Quadtree -> Quadtree -> Quadtree -> Quadtree -> Quadtree
--- anticlockwise q1 q2 q3 q4 = Node q1 q2 q3 q4
-
+-- blur :: Quadtree -> Quadtree
+-- blur 0 = 0
+-- blur n = 
