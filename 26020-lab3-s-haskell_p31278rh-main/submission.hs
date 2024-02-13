@@ -1,6 +1,6 @@
-import System.Console.Terminfo (Color(White))
-import Distribution.Compat.Graph (neighbors)
-import GHC.Base (neChar, neAddr#)
+-- import System.Console.Terminfo (Color(White))
+-- import Distribution.Compat.Graph (neighbors)
+-- import GHC.Base (neChar, neAddr)
 ----------------------- Ex1 --------------------------
 
 -- Quadtree Definition
@@ -63,8 +63,8 @@ getCellColour BlackCell = True
 -- Check if node is cell
 isCell:: Quadtree -> Bool
 isCell quadtree = case quadtree of
-    WhiteCell _ -> True
-    BlackCell _ -> True
+    WhiteCell -> True
+    BlackCell -> True
     _ -> False
 
 -- Count Func for Num Opposite Colour Neighbours
@@ -72,19 +72,19 @@ oppColourCount :: Bool -> [Quadtree] -> Int
 oppColourCount colour neighbours = length $ filter (\x -> x /= colour) (map getCellColour neighbours)
 
 -- Get blurred cell colour
-blurredColourd :: Quadtree -> [Quadtree] -> Bool
+blurredColour :: Quadtree -> [Quadtree] -> Bool
 blurredColour quadtree neighbours = let
     totNeighbours = length neighbours
     oppColourCount' = oppColourCount (not $ getCellColour quadtree ) neighbours
-    in if oppColourCount' > totNeighbours 'div' 2
+    in if totNeighbours > 0 && oppColourCount' > (totNeighbours `div`  2)
         then not (getCellColour quadtree)
         else getCellColour quadtree
 
 -- Blur Single Cell Function 
 cellBlur :: Quadtree -> [Quadtree] -> Quadtree
 cellBlur quadtree neighbours = if isCell quadtree
-    then if oppColourCount (getCellColour quadtree) neighbours > length neighbours 'div' 2
-        in if getCellColour quadtree then BlackCell else WhiteCell
+    then if oppColourCount (getCellColour quadtree) neighbours > length neighbours `div` 2
+        then if getCellColour quadtree then BlackCell else WhiteCell
     else quadtree
     else quadtree
 
@@ -92,7 +92,7 @@ cellBlur quadtree neighbours = if isCell quadtree
 blur :: Quadtree -> Quadtree
 blur quadtree = let
     nodeBlur :: Quadtree -> Quadtree
-    nodeBlur (Node a b c d) = Node (blurNode a) (blurNode b) (blurNode c) (blurNode d)
+    nodeBlur (Node a b c d) = Node (nodeBlur a) (nodeBlur b) (nodeBlur c) (nodeBlur d)
     nodeBlur node = node
 
     cellsBlur :: Quadtree -> [Quadtree] -> Quadtree
@@ -100,7 +100,7 @@ blur quadtree = let
         then cellBlur quadtree neighbours
         else quadtree
 
-    treeBlurCells :: Quadtre -> Quadtree
+    treeBlurCells :: Quadtree -> Quadtree
     treeBlurCells (Node a b c d) = Node (treeBlurCells a) (treeBlurCells b) (treeBlurCells c) (treeBlurCells d)
     treeBlurCells node = node
 
