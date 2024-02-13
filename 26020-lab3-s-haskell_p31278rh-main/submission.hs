@@ -69,21 +69,21 @@ isCell quadtree = case quadtree of
 
 -- Count Func for Num Opposite Colour Neighbours
 oppColourCount :: Bool -> [Quadtree] -> Int
-oppColourCount colour neighbors = length $ filter (\x -> x /= colour) (map getCellColour neighbors)
+oppColourCount colour neighbours = length $ filter (\x -> x /= colour) (map getCellColour neighbours)
 
 -- Get blurred cell colour
 blurredColourd :: Quadtree -> [Quadtree] -> Bool
 blurredColour quadtree neighbours = let
-    totNeighbours = length Neighbours
-    oppColourCount' = oppColourCount (not $ getCellColour quadtree ) neighbour
+    totNeighbours = length neighbours
+    oppColourCount' = oppColourCount (not $ getCellColour quadtree ) neighbours
     in if oppColourCount' > totNeighbours 'div' 2
         then not (getCellColour quadtree)
         else getCellColour quadtree
 
 -- Blur Single Cell Function 
 cellBlur :: Quadtree -> [Quadtree] -> Quadtree
-cellBlur quadtree neighbors = if isCell quadtree
-    then if oppColourCount (getCellColour quadtree) neighbors > length neighbors 'div' 2
+cellBlur quadtree neighbours = if isCell quadtree
+    then if oppColourCount (getCellColour quadtree) neighbours > length neighbours 'div' 2
         in if getCellColour quadtree then BlackCell else WhiteCell
     else quadtree
     else quadtree
@@ -96,15 +96,15 @@ blur quadtree = let
     nodeBlur node = node
 
     cellsBlur :: Quadtree -> [Quadtree] -> Quadtree
-    cellsBlur quadtree neighbors = if isCell quadtree
-        then cellBlur quadtree Neighbours
+    cellsBlur quadtree neighbours = if isCell quadtree
+        then cellBlur quadtree neighbours
         else quadtree
 
     treeBlurCells :: Quadtre -> Quadtree
     treeBlurCells (Node a b c d) = Node (treeBlurCells a) (treeBlurCells b) (treeBlurCells c) (treeBlurCells d)
     treeBlurCells node = node
 
-    in treeBlurCells $ blurNode quadtree 
+    in treeBlurCells $ nodeBlur quadtree 
 
 
 -- -- Single Cell Blur
